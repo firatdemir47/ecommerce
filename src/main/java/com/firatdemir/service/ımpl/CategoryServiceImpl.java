@@ -37,8 +37,8 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public List<CategoryDto> getAllCategories() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return categoryRepository.findAll().stream().map(this::todDto).collect(Collectors.toList());
 	}
 
 	@Override
