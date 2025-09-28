@@ -44,17 +44,19 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public CategoryDto updaCategory(Long id, CategoryDto dto) {
 		Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Kategori bulunamadı, id: " + id));
+				.orElseThrow(() -> new RuntimeException("Kategori bulunamadı, id: " + id));
 
-        category.setName(dto.getName());
-        Category updated = categoryRepository.save(category);
+		category.setName(dto.getName());
+		Category updated = categoryRepository.save(category);
 
-        return todDto(updated);
+		return todDto(updated);
 	}
 
 	@Override
 	public void deleteCategory(Long id) {
-		// TODO Auto-generated method stub
+		Category category = categoryRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Kategori bulunamadı, id: " + id));
+		categoryRepository.delete(category);
 
 	}
 
