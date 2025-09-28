@@ -55,4 +55,12 @@ public class CategoryServiceImpl implements CategoryService {
 		return dto;
 	}
 
+	private Category toEntity(CategoryDto dto) {
+		Category category = new Category();
+		category.setId(dto.getId());
+		category.setName(dto.getName());
+
+		return category;
+	}
+
 }
