@@ -8,20 +8,29 @@ import org.springframework.stereotype.Service;
 import com.firatdemir.dto.CategoryDto;
 import com.firatdemir.model.Category;
 import com.firatdemir.model.Product;
+import com.firatdemir.repository.CategoryRepository;
 import com.firatdemir.service.CategoryService;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
+	private final CategoryRepository categoryRepository;
+
+	public CategoryServiceImpl(CategoryRepository categoryRepository) {
+		this.categoryRepository = categoryRepository;
+	}
+
 	@Override
 	public CategoryDto creatCategory(CategoryDto dto) {
 
-		return null;
+		Category category = toEntity(dto);
+		Category saved = categoryRepository.save(category);
+		return todDto(saved);
 	}
 
 	@Override
 	public CategoryDto getCategoryByID(Long id) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
