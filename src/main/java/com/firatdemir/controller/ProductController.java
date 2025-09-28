@@ -1,5 +1,7 @@
 package com.firatdemir.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,5 +22,10 @@ public class ProductController {
 	public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto) {
 
 		return ResponseEntity.ok(productService.creaateProduct(productDto));
+	}
+
+	@GetMapping
+	public ResponseEntity<List<ProductDto>> getAllProducts() {
+		return ResponseEntity.ok(productService.getAllProducts());
 	}
 }
