@@ -6,7 +6,9 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.firatdemir.dto.ProductDto;
+import com.firatdemir.model.Category;
 import com.firatdemir.model.Product;
+import com.firatdemir.repository.CategoryRepository;
 import com.firatdemir.repository.ProductRepository;
 import com.firatdemir.service.ProductService;
 
@@ -17,6 +19,7 @@ public class ProductServiceImpl implements ProductService {
 
 	public ProductServiceImpl(ProductRepository productRepository) {
 		this.productRepository = productRepository;
+		
 	}
 
 	@Override
@@ -69,6 +72,7 @@ public class ProductServiceImpl implements ProductService {
 		product.setPrice(dto.getPrice());
 		product.setStock(dto.getStock());
 		product.setImageUrl(dto.getImageUrl());
+		
 		return product;
 	}
 
@@ -80,7 +84,7 @@ public class ProductServiceImpl implements ProductService {
 		dto.setPrice(entity.getPrice());
 		dto.setStock(entity.getStock());
 		dto.setImageUrl(entity.getImageUrl());
-
+		
 		return dto;
 	}
 
