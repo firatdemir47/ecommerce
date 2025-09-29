@@ -1,6 +1,7 @@
 package com.firatdemir.service.ımpl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -43,8 +44,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<UserDto> getAllUsers() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return userRepository.findAll().stream().map(this::toDto).collect(Collectors.toList());
 	}
 
 	@Override
