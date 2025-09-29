@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.firatdemir.dto.UserDto;
+import com.firatdemir.model.User;
 import com.firatdemir.service.UserService;
 
-
 @Service
-public class UserServiceImpl  implements UserService{
+public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDto createUser(UserDto userDto, String password) {
@@ -38,7 +38,17 @@ public class UserServiceImpl  implements UserService{
 	@Override
 	public void deleteUser(Long id) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	private UserDto toDto(User entity) {
+		UserDto dto = new UserDto();
+		dto.setId(entity.getId());
+		dto.setUsername(entity.getUsername());
+		dto.setEmail(entity.getEmail());
+		dto.setRole(entity.getRole());
+
+		return dto;
 	}
 
 }
