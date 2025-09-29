@@ -36,8 +36,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDto getUserById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		User user = userRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("kullanıcı bulunamadı,id: " + id));
+		return toDto(user);
 	}
 
 	@Override
