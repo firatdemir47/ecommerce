@@ -6,15 +6,32 @@ import org.springframework.stereotype.Service;
 
 import com.firatdemir.dto.UserDto;
 import com.firatdemir.model.User;
+import com.firatdemir.repository.UserRepository;
 import com.firatdemir.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
 
+	private final UserRepository userRepository;
+
+	public UserServiceImpl(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
+
 	@Override
 	public UserDto createUser(UserDto userDto, String password) {
-		// TODO Auto-generated method stub
-		return null;
+		if (userRepository.existsByUsername(userDto.getUsername())) {
+			throw new RuntimeException("Kullanıcı adı zaten mevcut: " + userDto.getUsername());
+		}
+
+		if (userRepository.existsByEmail(userDto.getEmail())) {
+			throw new RuntimeException("Email zaten mevcut: " + userDto.getEmail());
+		}
+		User user = toEntity(userDto);
+		user.setPassword(password);
+		User saved = userRepository.save(user);
+		return toDto(saved);
+
 	}
 
 	@Override
