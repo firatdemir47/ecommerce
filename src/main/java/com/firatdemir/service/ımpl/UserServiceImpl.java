@@ -56,8 +56,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void deleteUser(Long id) {
-		// TODO Auto-generated method stub
-
+		User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Kullanıcı bulunamadı,id" + id));
+		userRepository.delete(user);
 	}
 
 	private User toEntity(UserDto dto) {
