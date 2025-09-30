@@ -62,6 +62,18 @@ public class CartServiceImpl implements CartService {
 		// TODO Auto-generated method stub
 
 	}
+	  private Cart getOrCreateCart(Long userId) {
+	        return cartRepository.findAll().stream()
+	                .filter(c -> c.getUser().getId().equals(userId))
+	                .findFirst()
+	                .orElseGet(() -> {
+	                    User user = userRepository.findById(userId)
+	                            .orElseThrow(() -> new RuntimeException("Kullanıcı bulunamadı, id: " + userId));
+	                    Cart newCart = new Cart();
+	                    newCart.setUser(user);
+	                    return cartRepository.save(newCart);
+	                });
+	    }
 
 	private CartDto toDto(Cart cart) {
 		CartDto dto = new CartDto();
