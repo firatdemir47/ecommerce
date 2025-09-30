@@ -1,5 +1,7 @@
 package com.firatdemir.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,4 +28,8 @@ public class UserController {
 		return ResponseEntity.ok(userService.getUserById(id));
 	}
 
+	@GetMapping
+	public ResponseEntity<List<UserDto>> getAllUser() {
+		return ResponseEntity.ok(userService.getAllUsers());
+	}
 }
