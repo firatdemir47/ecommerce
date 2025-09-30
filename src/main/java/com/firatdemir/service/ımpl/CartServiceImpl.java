@@ -79,7 +79,10 @@ public class CartServiceImpl implements CartService {
 
 	@Override
 	public void clearCart(Long userId) {
-		// TODO Auto-generated method stub
+		Cart cart = getOrCreateCart(userId);
+		cartItemRepository.deleteAll(cart.getItems());
+		cart.getItems().clear();
+		cartRepository.save(cart);
 
 	}
 
