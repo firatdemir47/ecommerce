@@ -8,6 +8,7 @@ import com.firatdemir.dto.CarItemDto;
 import com.firatdemir.dto.CartDto;
 import com.firatdemir.model.Cart;
 import com.firatdemir.model.CartItem;
+import com.firatdemir.model.Product;
 import com.firatdemir.model.User;
 import com.firatdemir.repository.CartItemRepository;
 import com.firatdemir.repository.CartRepository;
@@ -47,8 +48,27 @@ public class CartServiceImpl implements CartService {
 
 	@Override
 	public CartDto addProductToCart(Long userId, Long productId, int quantity) {
-		// TODO Auto-generated method stub
-		return null;
+		Cart cart = getOrCreateCart(userId);
+		Product product = productRepository.findById(productId)
+				.orElseThrow(() -> new RuntimeException("Ürün bulunamadı, id: " + productId));
+
+		CartItem existingItem = cart.getItems().stream().filter(i -> i.getProduct().getId().equals(productId))
+				.findFirst().orElse(null);
+
+		if (existingItem != null) {
+			existingItem.setQuantity(existingItem.getQuantity() + quantity);
+			cartItemRepository.save(existingItem);
+		} else {
+			CartItem newItem = new CartItem();
+			newItem.setCart(cart);
+			newItem.setProduct(product);
+			newItem.setQuantity(quantity);
+			cart.getItems().add(newItem);
+			cartItemRepository.save(newItem);
+		}
+
+		Cart updated = cartRepository.save(cart);
+		return toDto(updated);
 	}
 
 	@Override
@@ -62,18 +82,17 @@ public class CartServiceImpl implements CartService {
 		// TODO Auto-generated method stub
 
 	}
-	  private Cart getOrCreateCart(Long userId) {
-	        return cartRepository.findAll().stream()
-	                .filter(c -> c.getUser().getId().equals(userId))
-	                .findFirst()
-	                .orElseGet(() -> {
-	                    User user = userRepository.findById(userId)
-	                            .orElseThrow(() -> new RuntimeException("Kullanıcı bulunamadı, id: " + userId));
-	                    Cart newCart = new Cart();
-	                    newCart.setUser(user);
-	                    return cartRepository.save(newCart);
-	                });
-	    }
+
+	private Cart getOrCreateCart(Long userId) {
+		return cartRepository.findAll().stream().filter(c -> c.getUser().getId().equals(userId)).findFirst()
+				.orElseGet(() -> {
+					User user = userRepository.findById(userId)
+							.orElseThrow(() -> new RuntimeException("Kullanıcı bulunamadı, id: " + userId));
+					Cart newCart = new Cart();
+					newCart.setUser(user);
+					return cartRepository.save(newCart);
+				});
+	}
 
 	private CartDto toDto(Cart cart) {
 		CartDto dto = new CartDto();
