@@ -20,4 +20,10 @@ public class UserController {
 	public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto, @RequestParam String password) {
 		return ResponseEntity.ok(userService.createUser(userDto, password));
 	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
+		return ResponseEntity.ok(userService.getUserById(id));
+	}
+
 }
