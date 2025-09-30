@@ -1,9 +1,12 @@
 package com.firatdemir.service.ımpl;
 
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
 import com.firatdemir.dto.CarItemDto;
 import com.firatdemir.dto.CartDto;
+import com.firatdemir.model.Cart;
 import com.firatdemir.model.CartItem;
 import com.firatdemir.repository.CartItemRepository;
 import com.firatdemir.repository.CartRepository;
@@ -49,6 +52,16 @@ public class CartServiceImpl implements CartService {
 	public void clearCart(Long userId) {
 		// TODO Auto-generated method stub
 
+	}
+
+	private CartDto toDto(Cart cart) {
+		CartDto dto = new CartDto();
+		dto.setId(cart.getId());
+		dto.setUserId(cart.getUser().getId());
+		if (cart.getItems() != null) {
+			dto.setItems(cart.getItems().stream().map(this::toDto).collect(Collectors.toList()));
+		}
+		return dto;
 	}
 
 	private CarItemDto toDto(CartItem item) {
