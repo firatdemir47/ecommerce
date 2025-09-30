@@ -2,11 +2,30 @@ package com.firatdemir.service.ımpl;
 
 import org.springframework.stereotype.Service;
 
+import com.firatdemir.dto.CarItemDto;
 import com.firatdemir.dto.CartDto;
+import com.firatdemir.model.CartItem;
+import com.firatdemir.repository.CartItemRepository;
+import com.firatdemir.repository.CartRepository;
+import com.firatdemir.repository.ProductRepository;
+import com.firatdemir.repository.UserRepository;
 import com.firatdemir.service.CartService;
 
 @Service
-public class CartServiceImpl  implements CartService{
+public class CartServiceImpl implements CartService {
+
+	private final CartRepository cartRepository;
+	private final CartItemRepository cartItemRepository;
+	private final UserRepository userRepository;
+	private final ProductRepository productRepository;
+
+	public CartServiceImpl(CartRepository cartRepository, CartItemRepository cartItemRepository,
+			UserRepository userRepository, ProductRepository productRepository) {
+		this.cartRepository = cartRepository;
+		this.cartItemRepository = cartItemRepository;
+		this.userRepository = userRepository;
+		this.productRepository = productRepository;
+	}
 
 	@Override
 	public CartDto getCartByUserId(Long userId) {
@@ -29,8 +48,16 @@ public class CartServiceImpl  implements CartService{
 	@Override
 	public void clearCart(Long userId) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	
+
+	private CarItemDto toDto(CartItem item) {
+		CarItemDto dto = new CarItemDto();
+		dto.setId(item.getId());
+		dto.setCartid(item.getCart().getId());
+		dto.setProductId(item.getProduct().getId());
+		dto.setQuantity(item.getQuantity());
+		return dto;
+	}
+
 }
