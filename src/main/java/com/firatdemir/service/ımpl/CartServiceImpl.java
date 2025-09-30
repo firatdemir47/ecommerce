@@ -73,8 +73,15 @@ public class CartServiceImpl implements CartService {
 
 	@Override
 	public CartDto removeProductFromCart(Long userId, Long productId) {
-		// TODO Auto-generated method stub
-		return null;
+		Cart cart = getOrCreateCart(userId);
+		CartItem item = cart.getItems().stream().filter(i -> i.getProduct().getId().equals(productId)).findFirst()
+				.orElseThrow(() -> new RuntimeException("Ürün sepette bulunamadı, id: " + productId));
+
+		cart.getItems().remove(item);
+		cartItemRepository.delete(item);
+
+		Cart updated = cartRepository.save(cart);
+		return toDto(updated);
 	}
 
 	@Override
