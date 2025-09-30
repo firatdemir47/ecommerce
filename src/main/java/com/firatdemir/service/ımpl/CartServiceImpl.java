@@ -8,6 +8,7 @@ import com.firatdemir.dto.CarItemDto;
 import com.firatdemir.dto.CartDto;
 import com.firatdemir.model.Cart;
 import com.firatdemir.model.CartItem;
+import com.firatdemir.model.User;
 import com.firatdemir.repository.CartItemRepository;
 import com.firatdemir.repository.CartRepository;
 import com.firatdemir.repository.ProductRepository;
@@ -32,8 +33,16 @@ public class CartServiceImpl implements CartService {
 
 	@Override
 	public CartDto getCartByUserId(Long userId) {
-		// TODO Auto-generated method stub
-		return null;
+		Cart cart = cartRepository.findAll().stream().filter(c -> c.getUser().getId().equals(userId)).findFirst()
+				.orElseGet(() -> {
+					User user = userRepository.findById(userId)
+							.orElseThrow(() -> new RuntimeException("Kullanıcı bulunamadı, id: " + userId));
+					Cart newCart = new Cart();
+					newCart.setUser(user);
+					return cartRepository.save(newCart);
+				});
+		return toDto(cart);
+
 	}
 
 	@Override
