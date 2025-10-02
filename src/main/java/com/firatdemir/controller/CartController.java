@@ -28,9 +28,9 @@ public class CartController {
 	}
 
 	@PostMapping("/{userId}/add/{productId}")
-	public ResponseEntity<CartDto> addProductToCart(@PathVariable Long userId, @PathVariable Long producrtId,
+	public ResponseEntity<CartDto> addProductToCart(@PathVariable Long userId, @PathVariable Long productId,
 			@RequestParam(defaultValue = "1") int quantity) {
-		return ResponseEntity.ok(cartService.addProductToCart(userId, producrtId, quantity));
+		return ResponseEntity.ok(cartService.addProductToCart(userId, productId, quantity));
 	}
 
 	@DeleteMapping("/{userId}/remove/{productId}")
