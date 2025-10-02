@@ -3,7 +3,9 @@ package com.firatdemir.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.firatdemir.dto.CartDto;
@@ -18,9 +20,15 @@ public class CartController {
 	public CartController(CartService cartService) {
 		this.cartService = cartService;
 	}
-	
+
 	@GetMapping("/{userId}")
 	public ResponseEntity<CartDto> getCartByUserId(@PathVariable Long userId) {
 		return ResponseEntity.ok(cartService.getCartByUserId(userId));
+	}
+
+	@PostMapping("/{userId}/add/{productId}")
+	public ResponseEntity<CartDto> addProductToCart(@PathVariable Long userId, @PathVariable Long producrtId,
+			@RequestParam(defaultValue = "1") int quantity) {
+		return ResponseEntity.ok(cartService.addProductToCart(userId, producrtId, quantity));
 	}
 }
