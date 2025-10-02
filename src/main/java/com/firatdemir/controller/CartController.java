@@ -1,6 +1,7 @@
 package com.firatdemir.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,5 +31,10 @@ public class CartController {
 	public ResponseEntity<CartDto> addProductToCart(@PathVariable Long userId, @PathVariable Long producrtId,
 			@RequestParam(defaultValue = "1") int quantity) {
 		return ResponseEntity.ok(cartService.addProductToCart(userId, producrtId, quantity));
+	}
+
+	@DeleteMapping("/{userId}/remove/{productId}")
+	public ResponseEntity<CartDto> removeProductFromCart(@PathVariable Long userId, @PathVariable Long producrtId) {
+		return ResponseEntity.ok(cartService.removeProductFromCart(userId, producrtId));
 	}
 }
