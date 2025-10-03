@@ -83,8 +83,8 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public List<OrderDto> getOrdersByUserId(Long UserId) {
-		// TODO Auto-generated method stub
-		return null;
+		return orderRepository.findAll().stream().filter(o -> o.getUser().getId().equals(UserId)).map(this::toDto)
+				.collect(Collectors.toList());
 	}
 
 	@Override
