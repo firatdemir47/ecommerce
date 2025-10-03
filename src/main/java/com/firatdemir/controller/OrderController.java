@@ -36,4 +36,8 @@ public class OrderController {
 		return ResponseEntity.ok(orderService.getOrdersByUserId(userId));
 	}
 
+	@GetMapping
+	public ResponseEntity<List<OrderDto>> getAllOrders() {
+		return ResponseEntity.ok(orderService.getAllOrders());
+	}
 }
