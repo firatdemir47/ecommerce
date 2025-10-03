@@ -1,5 +1,7 @@
 package com.firatdemir.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,4 +30,10 @@ public class OrderController {
 	public ResponseEntity<OrderDto> getOrderById(@PathVariable Long orderId) {
 		return ResponseEntity.ok(orderService.getOrderById(orderId));
 	}
+
+	@GetMapping("/user/{userId}")
+	public ResponseEntity<List<OrderDto>> getOrdersByUserId(@PathVariable Long userId) {
+		return ResponseEntity.ok(orderService.getOrdersByUserId(userId));
+	}
+
 }
