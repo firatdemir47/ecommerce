@@ -75,8 +75,10 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public OrderDto getOrderById(Long orderId) {
-		// TODO Auto-generated method stub
-		return null;
+		Order order = orderRepository.findById(orderId)
+				.orElseThrow(() -> new RuntimeException("Sipariş bulunamadı, id: " + orderId));
+		return toDto(order);
+
 	}
 
 	@Override
