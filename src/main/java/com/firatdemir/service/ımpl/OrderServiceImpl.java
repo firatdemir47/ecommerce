@@ -89,8 +89,8 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public List<OrderDto> getAllOrders() {
-		// TODO Auto-generated method stub
-		return null;
+		return orderRepository.findAll().stream().map(this::toDto).collect(Collectors.toList());
+
 	}
 
 	private OrderDto toDto(Order order) {
