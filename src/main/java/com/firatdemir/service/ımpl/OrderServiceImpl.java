@@ -1,5 +1,6 @@
 package com.firatdemir.service.ımpl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -7,8 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.firatdemir.dto.OrderDto;
 import com.firatdemir.dto.OrderItemDto;
+import com.firatdemir.model.Cart;
+import com.firatdemir.model.CartItem;
 import com.firatdemir.model.Order;
 import com.firatdemir.model.OrderItem;
+import com.firatdemir.model.User;
 import com.firatdemir.repository.CartItemRepository;
 import com.firatdemir.repository.CartRepository;
 import com.firatdemir.repository.OrderItemRepository;
@@ -37,8 +41,36 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public OrderDto createOrder(Long userId) {
-		// TODO Auto-generated method stub
-		return null;
+		User user = userRepository.findById(userId)
+				.orElseThrow(() -> new RuntimeException("Kullanıcı bulunamadı ,id: " + userId));
+
+		Cart cart = cartRepository.findAll().stream().filter(c -> c.getUser().getId().equals(userId)).findFirst()
+				.orElseThrow(() -> new RuntimeException("Kullanıcının sepeti boş "));
+		if (cart.getItems() == null || cart.getItems().isEmpty()) {
+			throw new RuntimeException("Sepette ürün yok");
+		}
+
+		Order order = new Order();
+		order.setUser(user);
+		order.setOrderDate(LocalDateTime.now());
+		order = orderRepository.save(order);
+
+		for (CartItem cartItem : cart.getItems()) {
+			OrderItem orderItem = new OrderItem();
+			orderItem.setOrder(order);
+			orderItem.setProduct(cartItem.getProduct());
+			orderItem.setQuantity(cartItem.getQuantity());
+			orderItem.setPrice(cartItem.getProduct().getPrice());
+			orderItemRepository.save(orderItem);
+		}
+		OrderDto orderDto = toDto(orderRepository.findById(order.getId()).get());
+
+		cartItemRepository.deleteAll(cart.getItems());
+		cart.getItems().clear();
+		cartRepository.save(cart);
+
+		return orderDto;
+
 	}
 
 	@Override
