@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.firatdemir.dto.OrderItemDto;
+import com.firatdemir.model.OrderItem;
 import com.firatdemir.repository.OrderItemRepository;
 import com.firatdemir.repository.OrderRepository;
 import com.firatdemir.repository.ProductRepository;
@@ -53,5 +54,14 @@ public class OrderItemServiceImpl implements OrderItemService {
 		// TODO Auto-generated method stub
 
 	}
+	private OrderItemDto toDto(OrderItem entity) {
+        OrderItemDto dto = new OrderItemDto();
+        dto.setId(entity.getId());
+        dto.setOrderId(entity.getOrder().getId());
+        dto.setProductID(entity.getProduct().getId());
+        dto.setQuantity(entity.getQuantity());
+        dto.setPrice(entity.getPrice());
+        return dto;
+    }
 
 }
