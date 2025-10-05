@@ -1,6 +1,7 @@
 package com.firatdemir.service.ımpl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -35,8 +36,10 @@ public class OrderItemServiceImpl implements OrderItemService {
 
 	@Override
 	public List<OrderItemDto> getOrderItemsByOrderId(Long orderId) {
-		// TODO Auto-generated method stub
-		return null;
+		  return orderItemRepository.findAll().stream()
+	                .filter(i -> i.getOrder().getId().equals(orderId))
+	                .map(this::toDto)
+	                .collect(Collectors.toList());
 	}
 
 	@Override
