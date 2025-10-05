@@ -27,8 +27,10 @@ public class OrderItemServiceImpl implements OrderItemService {
 
 	@Override
 	public OrderItemDto getOrderItemById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+
+		OrderItem item = orderItemRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Order item not found, id: " + id));
+		return toDto(item);
 	}
 
 	@Override
@@ -54,14 +56,15 @@ public class OrderItemServiceImpl implements OrderItemService {
 		// TODO Auto-generated method stub
 
 	}
+
 	private OrderItemDto toDto(OrderItem entity) {
-        OrderItemDto dto = new OrderItemDto();
-        dto.setId(entity.getId());
-        dto.setOrderId(entity.getOrder().getId());
-        dto.setProductID(entity.getProduct().getId());
-        dto.setQuantity(entity.getQuantity());
-        dto.setPrice(entity.getPrice());
-        return dto;
-    }
+		OrderItemDto dto = new OrderItemDto();
+		dto.setId(entity.getId());
+		dto.setOrderId(entity.getOrder().getId());
+		dto.setProductID(entity.getProduct().getId());
+		dto.setQuantity(entity.getQuantity());
+		dto.setPrice(entity.getPrice());
+		return dto;
+	}
 
 }
