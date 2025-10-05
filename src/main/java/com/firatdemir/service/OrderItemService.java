@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.firatdemir.dto.OrderItemDto;
 
-public interface OderItemService {
+public interface OrderItemService {
 
 	OrderItemDto getOrderItemById(Long id);
 
