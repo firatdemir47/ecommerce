@@ -64,8 +64,14 @@ public class OrderItemServiceImpl implements OrderItemService {
 
 	@Override
 	public OrderItemDto updateOrderItem(Long id, OrderItemDto orderItemDto) {
-		// TODO Auto-generated method stub
-		return null;
+		OrderItem orderItem = orderItemRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Order item not found, id: " + id));
+
+        orderItem.setQuantity(orderItemDto.getQuantity());
+        orderItem.setPrice(orderItemDto.getPrice());
+        OrderItem updated = orderItemRepository.save(orderItem);
+
+        return toDto(updated);
 	}
 
 	@Override
