@@ -6,7 +6,9 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.firatdemir.dto.OrderItemDto;
+import com.firatdemir.model.Order;
 import com.firatdemir.model.OrderItem;
+import com.firatdemir.model.Product;
 import com.firatdemir.repository.OrderItemRepository;
 import com.firatdemir.repository.OrderRepository;
 import com.firatdemir.repository.ProductRepository;
@@ -44,8 +46,20 @@ public class OrderItemServiceImpl implements OrderItemService {
 
 	@Override
 	public OrderItemDto createOrderItem(OrderItemDto orderItemDto) {
-		// TODO Auto-generated method stub
-		return null;
+		 Order order = orderRepository.findById(orderItemDto.getOrderId())
+	                .orElseThrow(() -> new RuntimeException("Order not found, id: " + orderItemDto.getOrderId()));
+
+	        Product product = productRepository.findById(orderItemDto.getProductID())
+	                .orElseThrow(() -> new RuntimeException("Product not found, id: " + orderItemDto.getProductID()));
+
+	        OrderItem orderItem = new OrderItem();
+	        orderItem.setOrder(order);
+	        orderItem.setProduct(product);
+	        orderItem.setQuantity(orderItemDto.getQuantity());
+	        orderItem.setPrice(orderItemDto.getPrice());
+
+	        OrderItem saved = orderItemRepository.save(orderItem);
+	        return toDto(saved);
 	}
 
 	@Override
