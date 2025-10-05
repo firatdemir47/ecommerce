@@ -63,7 +63,17 @@ public class OrderServiceImpl implements OrderService {
 			orderItem.setPrice(cartItem.getProduct().getPrice());
 			orderItemRepository.save(orderItem);
 		}
-		OrderDto orderDto = toDto(orderRepository.findById(order.getId()).get());
+		order = orderRepository.save(order);
+		Long orderId = order.getId();
+
+		Order orderWithItems = orderRepository.findById(orderId)
+				.orElseThrow(() -> new RuntimeException("Sipariş bulunamadı, id: " + orderId));
+
+		List<OrderItem> items = orderItemRepository.findAll().stream().filter(i -> i.getOrder().getId().equals(orderId))
+				.collect(Collectors.toList());
+		orderWithItems.setItems(items);
+
+		OrderDto orderDto = toDto(orderWithItems);
 
 		cartItemRepository.deleteAll(cart.getItems());
 		cart.getItems().clear();
