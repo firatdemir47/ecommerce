@@ -38,45 +38,45 @@ public class OrderItemServiceImpl implements OrderItemService {
 
 	@Override
 	public List<OrderItemDto> getOrderItemsByOrderId(Long orderId) {
-		  return orderItemRepository.findAll().stream()
-	                .filter(i -> i.getOrder().getId().equals(orderId))
-	                .map(this::toDto)
-	                .collect(Collectors.toList());
+		return orderItemRepository.findAll().stream().filter(i -> i.getOrder().getId().equals(orderId)).map(this::toDto)
+				.collect(Collectors.toList());
 	}
 
 	@Override
 	public OrderItemDto createOrderItem(OrderItemDto orderItemDto) {
-		 Order order = orderRepository.findById(orderItemDto.getOrderId())
-	                .orElseThrow(() -> new RuntimeException("Order not found, id: " + orderItemDto.getOrderId()));
+		Order order = orderRepository.findById(orderItemDto.getOrderId())
+				.orElseThrow(() -> new RuntimeException("Order not found, id: " + orderItemDto.getOrderId()));
 
-	        Product product = productRepository.findById(orderItemDto.getProductID())
-	                .orElseThrow(() -> new RuntimeException("Product not found, id: " + orderItemDto.getProductID()));
+		Product product = productRepository.findById(orderItemDto.getProductID())
+				.orElseThrow(() -> new RuntimeException("Product not found, id: " + orderItemDto.getProductID()));
 
-	        OrderItem orderItem = new OrderItem();
-	        orderItem.setOrder(order);
-	        orderItem.setProduct(product);
-	        orderItem.setQuantity(orderItemDto.getQuantity());
-	        orderItem.setPrice(orderItemDto.getPrice());
+		OrderItem orderItem = new OrderItem();
+		orderItem.setOrder(order);
+		orderItem.setProduct(product);
+		orderItem.setQuantity(orderItemDto.getQuantity());
+		orderItem.setPrice(orderItemDto.getPrice());
 
-	        OrderItem saved = orderItemRepository.save(orderItem);
-	        return toDto(saved);
+		OrderItem saved = orderItemRepository.save(orderItem);
+		return toDto(saved);
 	}
 
 	@Override
 	public OrderItemDto updateOrderItem(Long id, OrderItemDto orderItemDto) {
 		OrderItem orderItem = orderItemRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Order item not found, id: " + id));
+				.orElseThrow(() -> new RuntimeException("Order item not found, id: " + id));
 
-        orderItem.setQuantity(orderItemDto.getQuantity());
-        orderItem.setPrice(orderItemDto.getPrice());
-        OrderItem updated = orderItemRepository.save(orderItem);
+		orderItem.setQuantity(orderItemDto.getQuantity());
+		orderItem.setPrice(orderItemDto.getPrice());
+		OrderItem updated = orderItemRepository.save(orderItem);
 
-        return toDto(updated);
+		return toDto(updated);
 	}
 
 	@Override
 	public void deleteOrderItem(Long id) {
-		// TODO Auto-generated method stub
+		OrderItem orderItem = orderItemRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Order item not found, id: " + id));
+		orderItemRepository.delete(orderItem);
 
 	}
 
