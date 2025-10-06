@@ -3,6 +3,7 @@ package com.firatdemir.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,5 +43,11 @@ public class OrderItemController {
 	@PutMapping("/{id}")
 	public ResponseEntity<OrderItemDto> updateOrderItem(@PathVariable Long id, @RequestBody OrderItemDto dto) {
 		return ResponseEntity.ok(orderItemService.updateOrderItem(id, dto));
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> deleteOrderItem(@PathVariable Long id) {
+		orderItemService.deleteOrderItem(id);
+		return ResponseEntity.noContent().build();
 	}
 }
