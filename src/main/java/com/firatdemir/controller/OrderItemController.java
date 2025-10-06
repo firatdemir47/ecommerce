@@ -1,8 +1,12 @@
 package com.firatdemir.controller;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.firatdemir.dto.OrderItemDto;
 import com.firatdemir.service.OrderItemService;
 
 @RestController
@@ -14,4 +18,9 @@ public class OrderItemController {
 	public OrderItemController(OrderItemService orderItemService) {
 		this.orderItemService = orderItemService;
 	}
+	
+	 @GetMapping("/{id}")
+		public ResponseEntity<OrderItemDto> getOrderItemById(@PathVariable Long id) {
+	        return ResponseEntity.ok(orderItemService.getOrderItemById(id));
+	    }
 }
