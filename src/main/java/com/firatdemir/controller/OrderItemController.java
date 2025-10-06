@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,8 +34,13 @@ public class OrderItemController {
 		return ResponseEntity.ok(orderItemService.getOrderItemsByOrderId(orderId));
 	}
 
-	  @PostMapping
-	    public ResponseEntity<OrderItemDto> createOrderItem(@RequestBody OrderItemDto orderItemDto) {
-	        return ResponseEntity.ok(orderItemService.createOrderItem(orderItemDto));
-	    }
+	@PostMapping
+	public ResponseEntity<OrderItemDto> createOrderItem(@RequestBody OrderItemDto orderItemDto) {
+		return ResponseEntity.ok(orderItemService.createOrderItem(orderItemDto));
+	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<OrderItemDto> updateOrderItem(@PathVariable Long id, @RequestBody OrderItemDto dto) {
+		return ResponseEntity.ok(orderItemService.updateOrderItem(id, dto));
+	}
 }
