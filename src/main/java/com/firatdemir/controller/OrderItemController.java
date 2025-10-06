@@ -1,5 +1,7 @@
 package com.firatdemir.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,9 +20,15 @@ public class OrderItemController {
 	public OrderItemController(OrderItemService orderItemService) {
 		this.orderItemService = orderItemService;
 	}
-	
-	 @GetMapping("/{id}")
-		public ResponseEntity<OrderItemDto> getOrderItemById(@PathVariable Long id) {
-	        return ResponseEntity.ok(orderItemService.getOrderItemById(id));
-	    }
+
+	@GetMapping("/{id}")
+	public ResponseEntity<OrderItemDto> getOrderItemById(@PathVariable Long id) {
+		return ResponseEntity.ok(orderItemService.getOrderItemById(id));
+	}
+
+	@GetMapping("/order/{orderId}")
+	public ResponseEntity<List<OrderItemDto>> getOrderItemsByOrderId(@PathVariable Long orderId) {
+		return ResponseEntity.ok(orderItemService.getOrderItemsByOrderId(orderId));
+	}
+
 }
