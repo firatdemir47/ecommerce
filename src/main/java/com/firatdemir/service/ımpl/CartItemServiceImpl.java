@@ -27,8 +27,9 @@ public class CartItemServiceImpl implements CartItemService {
 
 	@Override
 	public CartItemDto getCartItemById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		CartItem item = cartItemRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("CartItem bulunamadı, id: " + id));
+		return toDto(item);
 	}
 
 	@Override
