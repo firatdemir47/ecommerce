@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CarItemDto {
+public class CartItemDto {
 	
 	private Long id;
 	
