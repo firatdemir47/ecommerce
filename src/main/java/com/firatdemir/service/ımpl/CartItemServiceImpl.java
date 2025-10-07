@@ -1,6 +1,7 @@
 package com.firatdemir.service.ımpl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -34,8 +35,7 @@ public class CartItemServiceImpl implements CartItemService {
 
 	@Override
 	public List<CartItemDto> getAllCartItems() {
-		// TODO Auto-generated method stub
-		return null;
+		return cartItemRepository.findAll().stream().map(this::toDto).collect(Collectors.toList());
 	}
 
 	@Override
