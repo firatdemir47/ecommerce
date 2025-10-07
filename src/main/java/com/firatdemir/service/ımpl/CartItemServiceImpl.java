@@ -58,8 +58,13 @@ public class CartItemServiceImpl implements CartItemService {
 
 	@Override
 	public CartItemDto updateCartItem(Long id, CartItemDto cartItemDto) {
-		// TODO Auto-generated method stub
-		return null;
+		 CartItem item = cartItemRepository.findById(id)
+	                .orElseThrow(() -> new RuntimeException("CartItem bulunamadı, id: " + id));
+
+	        item.setQuantity(cartItemDto.getQuantity());
+	        CartItem updated = cartItemRepository.save(item);
+
+	        return toDto(updated);
 	}
 
 	@Override
