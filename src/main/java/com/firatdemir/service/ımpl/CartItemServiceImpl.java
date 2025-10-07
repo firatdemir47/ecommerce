@@ -58,18 +58,20 @@ public class CartItemServiceImpl implements CartItemService {
 
 	@Override
 	public CartItemDto updateCartItem(Long id, CartItemDto cartItemDto) {
-		 CartItem item = cartItemRepository.findById(id)
-	                .orElseThrow(() -> new RuntimeException("CartItem bulunamadı, id: " + id));
+		CartItem item = cartItemRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("CartItem bulunamadı, id: " + id));
 
-	        item.setQuantity(cartItemDto.getQuantity());
-	        CartItem updated = cartItemRepository.save(item);
+		item.setQuantity(cartItemDto.getQuantity());
+		CartItem updated = cartItemRepository.save(item);
 
-	        return toDto(updated);
+		return toDto(updated);
 	}
 
 	@Override
 	public void deleteCartItem(Long id) {
-		// TODO Auto-generated method stub
+		CartItem item = cartItemRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("CartItem bulunamadı, id: " + id));
+		cartItemRepository.delete(item);
 
 	}
 
