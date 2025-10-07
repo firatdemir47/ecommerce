@@ -4,8 +4,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.firatdemir.dto.CarItemDto;
+
 import com.firatdemir.dto.CartDto;
+import com.firatdemir.dto.CartItemDto;
 import com.firatdemir.model.Cart;
 import com.firatdemir.model.CartItem;
 import com.firatdemir.model.Product;
@@ -114,8 +115,8 @@ public class CartServiceImpl implements CartService {
 		return dto;
 	}
 
-	private CarItemDto toDto(CartItem item) {
-		CarItemDto dto = new CarItemDto();
+	private CartItemDto toDto(CartItem item) {
+		CartItemDto dto = new CartItemDto();
 		dto.setId(item.getId());
 		dto.setCartid(item.getCart().getId());
 		dto.setProductId(item.getProduct().getId());
