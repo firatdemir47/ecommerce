@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.firatdemir.dto.CartItemDto;
+import com.firatdemir.model.CartItem;
 import com.firatdemir.repository.CartItemRepository;
 import com.firatdemir.repository.CartRepository;
 import com.firatdemir.repository.ProductRepository;
@@ -52,6 +53,15 @@ public class CartItemServiceImpl implements CartItemService {
 	public void deleteCartItem(Long id) {
 		// TODO Auto-generated method stub
 
+	}
+
+	private CartItemDto toDto(CartItem item) {
+		CartItemDto dto = new CartItemDto();
+		dto.setId(item.getId());
+		dto.setCartid(item.getCart().getId());
+		dto.setProductId(item.getProduct().getId());
+		dto.setQuantity(item.getQuantity());
+		return dto;
 	}
 
 }
