@@ -6,7 +6,9 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.firatdemir.dto.CartItemDto;
+import com.firatdemir.model.Cart;
 import com.firatdemir.model.CartItem;
+import com.firatdemir.model.Product;
 import com.firatdemir.repository.CartItemRepository;
 import com.firatdemir.repository.CartRepository;
 import com.firatdemir.repository.ProductRepository;
@@ -40,8 +42,18 @@ public class CartItemServiceImpl implements CartItemService {
 
 	@Override
 	public CartItemDto createCartItem(CartItemDto cartItemDto) {
-		// TODO Auto-generated method stub
-		return null;
+		Cart cart = cartRepository.findById(cartItemDto.getCartid())
+				.orElseThrow(() -> new RuntimeException("Cart bulunamadı, id: " + cartItemDto.getCartid()));
+		Product product = productRepository.findById(cartItemDto.getProductId())
+				.orElseThrow(() -> new RuntimeException("Ürün bulunamadı, id: " + cartItemDto.getProductId()));
+
+		CartItem item = new CartItem();
+		item.setCart(cart);
+		item.setProduct(product);
+		item.setQuantity(cartItemDto.getQuantity());
+
+		CartItem saved = cartItemRepository.save(item);
+		return toDto(saved);
 	}
 
 	@Override
