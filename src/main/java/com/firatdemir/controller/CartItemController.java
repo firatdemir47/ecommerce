@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,9 +33,14 @@ public class CartItemController {
 	public ResponseEntity<List<CartItemDto>> getAllCartItems() {
 		return ResponseEntity.ok(cartItemService.getAllCartItems());
 	}
-	
+
 	@PostMapping
-    public ResponseEntity<CartItemDto> createCartItem(@RequestBody CartItemDto dto) {
-        return ResponseEntity.ok(cartItemService.createCartItem(dto));
-    }
+	public ResponseEntity<CartItemDto> createCartItem(@RequestBody CartItemDto dto) {
+		return ResponseEntity.ok(cartItemService.createCartItem(dto));
+	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<CartItemDto> updateCartItem(@PathVariable Long id, @RequestBody CartItemDto dto) {
+		return ResponseEntity.ok(cartItemService.updateCartItem(id, dto));
+	}
 }
