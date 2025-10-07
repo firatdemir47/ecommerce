@@ -1,5 +1,7 @@
 package com.firatdemir.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,5 +24,10 @@ public class CartItemController {
 	@GetMapping("/{id}")
 	public ResponseEntity<CartItemDto> getCartItemById(@PathVariable Long id) {
 		return ResponseEntity.ok(cartItemService.getCartItemById(id));
+	}
+
+	@GetMapping
+	public ResponseEntity<List<CartItemDto>> getAllCartItems() {
+		return ResponseEntity.ok(cartItemService.getAllCartItems());
 	}
 }
