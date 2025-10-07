@@ -1,4 +1,4 @@
-package com.firatdemir.service.ımpl;
+ package com.firatdemir.service.ımpl;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.firatdemir.dto.ProductDto;
-import com.firatdemir.model.Category;
+
 import com.firatdemir.model.Product;
-import com.firatdemir.repository.CategoryRepository;
+
 import com.firatdemir.repository.ProductRepository;
 import com.firatdemir.service.ProductService;
 
