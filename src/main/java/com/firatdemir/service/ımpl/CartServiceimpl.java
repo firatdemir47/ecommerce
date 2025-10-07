@@ -18,14 +18,14 @@ import com.firatdemir.repository.UserRepository;
 import com.firatdemir.service.CartService;
 
 @Service
-public class CartServiceImpl implements CartService {
+public class CartServiceimpl implements CartService {
 
 	private final CartRepository cartRepository;
 	private final CartItemRepository cartItemRepository;
 	private final UserRepository userRepository;
 	private final ProductRepository productRepository;
 
-	public CartServiceImpl(CartRepository cartRepository, CartItemRepository cartItemRepository,
+	public CartServiceimpl(CartRepository cartRepository, CartItemRepository cartItemRepository,
 			UserRepository userRepository, ProductRepository productRepository) {
 		this.cartRepository = cartRepository;
 		this.cartItemRepository = cartItemRepository;
