@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.firatdemir.dto.ProductDto;
 import com.firatdemir.exception.NotFoundException;
@@ -39,6 +41,11 @@ public class ProductServiceImpl implements ProductService {
 	public List<ProductDto> getAllProducts() {
 
 		return productRepository.findAll().stream().map(this::toDto).collect(Collectors.toList());
+	}
+
+	@Override
+	public Page<ProductDto> getAllProducts(Pageable pageable) {
+		return productRepository.findAll(pageable).map(this::toDto);
 	}
 
 	@Override
