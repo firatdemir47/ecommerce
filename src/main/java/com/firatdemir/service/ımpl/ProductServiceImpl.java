@@ -6,9 +6,8 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.firatdemir.dto.ProductDto;
-
+import com.firatdemir.exception.NotFoundException;
 import com.firatdemir.model.Product;
-
 import com.firatdemir.repository.ProductRepository;
 import com.firatdemir.service.ProductService;
 
@@ -32,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public ProductDto getProductById(Long id) {
 		Product product = productRepository.findById(id)
-				.orElseThrow(() -> new RuntimeException("Aranan Ürün Bulunamadı , id:" + id));
+				.orElseThrow(() -> new NotFoundException("Aranan Ürün Bulunamadı , id:" + id));
 		return toDto(product);
 	}
 
@@ -45,7 +44,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public ProductDto updateProduct(Long id, ProductDto productDto) {
 		Product product = productRepository.findById(id)
-				.orElseThrow(() -> new RuntimeException("Aranan Ürün Bulunamadı , id:" + id));
+				.orElseThrow(() -> new NotFoundException("Aranan Ürün Bulunamadı , id:" + id));
 		product.setName(productDto.getName());
 		product.setDescription(productDto.getDescription());
 		product.setPrice(productDto.getPrice());
@@ -60,7 +59,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public void deleteProduct(Long id) {
 		Product product = productRepository.findById(id)
-				.orElseThrow(() -> new RuntimeException("Aranan Ürün Bulunamadı , id:" + id));
+				.orElseThrow(() -> new NotFoundException("Aranan Ürün Bulunamadı , id:" + id));
 		productRepository.delete(product);
 	}
 
