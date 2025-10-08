@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.firatdemir.dto.OrderDto;
 import com.firatdemir.dto.OrderItemDto;
@@ -40,12 +41,12 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
+	@Transactional
 	public OrderDto createOrder(Long userId) {
 		User user = userRepository.findById(userId)
 				.orElseThrow(() -> new RuntimeException("Kullanıcı bulunamadı ,id: " + userId));
 
-		Cart cart = cartRepository.findAll().stream().filter(c -> c.getUser().getId().equals(userId)).findFirst()
-				.orElseThrow(() -> new RuntimeException("Kullanıcının sepeti boş "));
+		Cart cart = cartRepository.findByUser_Id(userId).orElseThrow(() -> new RuntimeException("Kullanıcının sepeti boş "));
 		if (cart.getItems() == null || cart.getItems().isEmpty()) {
 			throw new RuntimeException("Sepette ürün yok");
 		}
@@ -69,8 +70,7 @@ public class OrderServiceImpl implements OrderService {
 		Order orderWithItems = orderRepository.findById(orderId)
 				.orElseThrow(() -> new RuntimeException("Sipariş bulunamadı, id: " + orderId));
 
-		List<OrderItem> items = orderItemRepository.findAll().stream().filter(i -> i.getOrder().getId().equals(orderId))
-				.collect(Collectors.toList());
+		List<OrderItem> items = orderItemRepository.findByOrder_Id(orderId);
 		orderWithItems.setItems(items);
 
 		OrderDto orderDto = toDto(orderWithItems);
@@ -93,7 +93,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public List<OrderDto> getOrdersByUserId(Long UserId) {
-		return orderRepository.findAll().stream().filter(o -> o.getUser().getId().equals(UserId)).map(this::toDto)
+		return orderRepository.findByUser_Id(UserId).stream().map(this::toDto)
 				.collect(Collectors.toList());
 	}
 
