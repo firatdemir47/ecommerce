@@ -3,6 +3,7 @@ package com.firatdemir.service.ımpl;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import com.firatdemir.dto.CartDto;
@@ -48,6 +49,7 @@ public class CartServiceimpl implements CartService {
 	}
 
 	@Override
+	@Transactional
 	public CartDto addProductToCart(Long userId, Long productId, int quantity) {
 		Cart cart = getOrCreateCart(userId);
 		Product product = productRepository.findById(productId)
@@ -73,6 +75,7 @@ public class CartServiceimpl implements CartService {
 	}
 
 	@Override
+	@Transactional
 	public CartDto removeProductFromCart(Long userId, Long productId) {
 		Cart cart = getOrCreateCart(userId);
 		CartItem item = cart.getItems().stream().filter(i -> i.getProduct().getId().equals(productId)).findFirst()
@@ -86,6 +89,7 @@ public class CartServiceimpl implements CartService {
 	}
 
 	@Override
+	@Transactional
 	public void clearCart(Long userId) {
 		Cart cart = getOrCreateCart(userId);
 		cartItemRepository.deleteAll(cart.getItems());
@@ -95,8 +99,7 @@ public class CartServiceimpl implements CartService {
 	}
 
 	private Cart getOrCreateCart(Long userId) {
-		return cartRepository.findAll().stream().filter(c -> c.getUser().getId().equals(userId)).findFirst()
-				.orElseGet(() -> {
+		return cartRepository.findByUser_Id(userId).orElseGet(() -> {
 					User user = userRepository.findById(userId)
 							.orElseThrow(() -> new RuntimeException("Kullanıcı bulunamadı, id: " + userId));
 					Cart newCart = new Cart();
