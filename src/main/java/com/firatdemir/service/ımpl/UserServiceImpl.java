@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.firatdemir.dto.UserDto;
 import com.firatdemir.model.User;
@@ -13,11 +14,13 @@ import com.firatdemir.service.UserService;
 @Service
 public class UserServiceImpl implements UserService {
 
-	private final UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-	public UserServiceImpl(UserRepository userRepository) {
-		this.userRepository = userRepository;
-	}
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
 	@Override
 	public UserDto createUser(UserDto userDto, String password) {
@@ -28,8 +31,8 @@ public class UserServiceImpl implements UserService {
 		if (userRepository.existsByEmail(userDto.getEmail())) {
 			throw new RuntimeException("Email zaten mevcut: " + userDto.getEmail());
 		}
-		User user = toEntity(userDto);
-		user.setPassword(password);
+        User user = toEntity(userDto);
+        user.setPassword(passwordEncoder.encode(password));
 		User saved = userRepository.save(user);
 		return toDto(saved);
 
