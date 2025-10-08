@@ -30,7 +30,8 @@ public class ProductController {
 	@PostMapping
 	public ResponseEntity<ProductDto> createProduct(@Valid @RequestBody ProductDto productDto) {
 
-		return ResponseEntity.ok(productService.creaateProduct(productDto));
+		ProductDto created = productService.creaateProduct(productDto);
+		return ResponseEntity.created(java.net.URI.create("/api/products/" + created.getId())).body(created);
 	}
 
 	@GetMapping
