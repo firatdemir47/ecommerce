@@ -3,6 +3,9 @@ package com.firatdemir.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,10 +37,10 @@ public class ProductController {
 		return ResponseEntity.created(java.net.URI.create("/api/products/" + created.getId())).body(created);
 	}
 
-	@GetMapping
-	public ResponseEntity<List<ProductDto>> getAllProducts() {
-		return ResponseEntity.ok(productService.getAllProducts());
-	}
+    @GetMapping
+    public ResponseEntity<Page<ProductDto>> getAllProducts(@PageableDefault(size = 10) Pageable pageable) {
+        return ResponseEntity.ok(productService.getAllProducts(pageable));
+    }
 
 	@GetMapping("/{id}")
 	public ResponseEntity<ProductDto> getProductById(@PathVariable Long id) {
